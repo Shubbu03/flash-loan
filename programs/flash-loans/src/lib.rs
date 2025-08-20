@@ -1,14 +1,11 @@
 #![allow(unexpected_cfgs, deprecated)]
-pub mod constants;
 pub mod error;
 pub mod instructions;
 pub mod state;
 
 use anchor_lang::prelude::*;
 
-pub use constants::*;
 pub use instructions::*;
-pub use state::*;
 
 declare_id!("BxkfU44GdLTBR9LFUDSeK7QtidYN8qiPydbEoiNFfeFM");
 
@@ -16,7 +13,11 @@ declare_id!("BxkfU44GdLTBR9LFUDSeK7QtidYN8qiPydbEoiNFfeFM");
 pub mod flash_loans {
     use super::*;
 
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
-        initialize::handler(ctx)
+    pub fn borrow(ctx: Context<Loan>, borrow_amount: u64) -> Result<()> {
+        ctx.accounts.borrow(borrow_amount, ctx.bumps.protocol)
+    }
+
+    pub fn repay(ctx: Context<Loan>) -> Result<()> {
+        ctx.accounts.repay()
     }
 }
